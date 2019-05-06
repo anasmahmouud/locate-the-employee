@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+  <title>
+  </title>
+  <link rel='stylesheet' href='stylesheets/style.css' />
+</head>
+
+
+
+<body>
+  <h1>
+    Employee Location Tracker
+  </h1>
+  <p id="current-day">Users currently being tracked on day:  
+  </p>
+  <script>
+    const today = new Date();
+    const day = today.getDay();
+    const daylist = ["Sunday","Monday","Tuesday","Wednesday ","Thursday","Friday","Saturday"];
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    document.getElementById("current-day").innerText = `Users currently being tracked on day: ${daylist[day]}, ${dd} - ${mm} - ${yyyy}`
+  </script>
+  <p id="display">
+
+  </p>
+  <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-database.js"></script>
+
+  <script>
+    // TODO: Replace the following with your app's Firebase project configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBrGF8Q6fjD8vSzNIewPeOTPRrBdY9Nklw",
+      authDomain: "sample-app-7e919.firebaseapp.com",
+      databaseURL: "https://sample-app-7e919.firebaseio.com",
+      projectId: "sample-app-7e919",
+      storageBucket: "sample-app-7e919.appspot.com",
+      messagingSenderId: "29559010892"
+    };
+    // Initialize Firebase
+    var defaultProject = firebase.initializeApp(firebaseConfig);
+    var defaultDatabase = defaultProject.database();
+    var d = new Date();
+    var n = d.getDay(); 
+
+
+    var starCountRef =  firebase.database().ref();
+    starCountRef.on('value', function (snapshot) {
+      var log = snapshot.val();
+        var text = ''
+        for (var key in log) {
+          if (log.hasOwnProperty(key)) {
+           text += key + " -> " + JSON.stringify(log[key], null, 4) + '\n\n';
+          }
+        }
+        document.getElementById("display").innerText = text
+    });
+
+    
+
+  </script>
+
+  
+</body>
+
+</html>
